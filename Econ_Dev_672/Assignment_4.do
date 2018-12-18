@@ -28,51 +28,14 @@ local edit "C:\Users\Ryry\Dropbox\Econ-672-Econ-Dev\Assignment_4\edit"
 display "Analysis run by $USER for Assignment 4 at `date' and `time'"
 
 /*****************
-	 Question 1: Overview
-*****************/
-
-//************ Part A
-/*************
-	 The research question is what is the effect of the introduction of
-	 potatoes on Old World population growth and urbanizaiton.
-*************/
-
-//************ Part B
-/*************
-	 The econometric issue is reverse causality and joint determination.
-	 Reverse causality because increased income/urbanization could have led
-	 to the adoption of a cash crop such as the potato. And joint determination
-	 because some other factor spurring development (eg. industralization) 
-	 could have increased the rise of both in the Old World.
-*************/
-
-//*********** Part C
-/************
-	 These econometric issues are important to the paper, because they 
-	 creates questions about the validity of the findings, and prevents 
-	 claims of causality.
-************/
-
-/*****************
 	 Question 2: Baseline Results
 *****************/
 
 //************ Part A
-/*************
-	 The unit of observation is for each country by time period.
-*************/
 
 //************ Part B
-/*************
-	 There are 130 country units and 12 time periods.
-*************/
 
 //************ Part C
-/*************
-	 For a log-log specification, this means that the variable coefficent
-	 is interperted as a % change in the dependent variable for every 1%
-	 change in the indepedent variable.
-*************/
 
 //************ Part D
 use "`input'\country_level_panel_for_web.dta", clear
@@ -80,58 +43,22 @@ describe
 br
 
 areg ln_population ln_wpot_post i.year, absorb(country) cluster(country)
-/*************
-	 Clustering:
-	 We cluster at the country level because we would like to control for 
-	 serial correlation within countries. This inflates the standard error
-	 to state that the variation is serially correlated over time. 
-	 Coefficent on Potato Area:
-	 The coefficent is .0586433. We interpert this as a 1% increase in potato
-	 area leads to a 5.86% increase in population.
-*************/
 
 //************* Part E
-/**************
-	 We have fixed effects because it controls for time invariant endogeneity.
-**************/
 
 //************* Part F
-/**************	
-	 We are doing this to prevent perfect collinearity, which would make it
-	 perfectly correlated with our main explanatory variable. Therefore, the
-	 outcome we are concerned with is the difference in time, not the
-	 difference in country.
-**************/
+
 //************* Part G
-/**************
-	  We are doing this to prevent perfect collinearity. Having fixed effects
-	  for both year and country would be problematic because there would be 
-	  no variation in the regression as there is no level of observation below
-	  year and country. Via Yaniv in class (Yaniv, 2018)
-**************/
 
 /*****************
 	 Question 3: Control
 *****************/
 
 //************** Part A
-/***************
-	 All of the controls in Table 2 are geographic, therefore they vary across
-	 country and not time in the paper. I.e. elevation remains the same 
-	 throughout time.
-***************/
 
 //************** Part B
-/***************
-	 We do not experience multicollinearity because these controls are not
-	 predictive of anything besides potato suitability.
-***************/
 
 //************** Part C
-/***************
-	 We add these controls to account for the effect of other New World crops
-	 on increases in population and ubranization in the Old World.
-***************/
 
 //************** Part D
 
@@ -186,36 +113,14 @@ sum ln_population if (suit == 1 & post2 == 0)
 sum ln_population if (suit == 0 & post2 == 1)
 sum ln_population if (suit == 1 & post2 == 1)
 reg ln_population suit post2 suitpost
-/*****************
-	 Firstly, the difference is we are accounting for more controls which helps
-	 isolate the effect of potatoes on population growth. Secondly, we are
-	 accounting for the effect of potatoes on population growth within each 
-	 time period.
-*****************/
 
 /*****************
 	 Question 4: Robustness Checks
 *****************/
 
 //**************** Part A
-/****************
-	 Variable 1: Protestant Indicator
-	 Accounting for whether the country has a protestant history controls for
-	 cultural differences in work-ethic and values around fertility and 
-	 procreation.
-	 Variable 2: Slave Exports
-	 Accounting for whether the country had slave exports controls for a 
-	 loss in human capital, and population declines and changing demographics.
-****************/
 
 //***************** Part B
-/******************
-	 This differs from the country fixed effects by accounting for within 
-	 country variation. This helps to control for factors that helped Europe
-	 to diverge from the rest of the world, e.g. The Industrial Revolution.
-	 Contient-Year effects help to control for contient-wide shocks that
-	 would have affected all countries in the contient equally.
-******************/
 
 //**************** Part C
 foreach x in 1000 1100 1200 1300 1400 1500 1600 1700 1750 1800 1850 1900{
@@ -231,20 +136,8 @@ local cont_europe_flexible "cont_europe_1100 cont_europe_1200 cont_europe_1300 c
 local cont_oceania_flexible "cont_oceania_1100 cont_oceania_1200 cont_oceania_1300 cont_oceania_1400 cont_oceania_1500 cont_oceania_1600 cont_oceania_1700 cont_oceania_1750 cont_oceania_1800 cont_oceania_1850 cont_oceania_1900"
 
 areg ln_population ln_wpot_post `ln_rugged_flexible' `ln_tropical_flexible' `ln_elevation_flexible' `ln_oworld_flexible' `cont_africa_flexible' `cont_asia_flexible' `cont_europe_flexible' `cont_oceania_flexible', absorb(country) cluster(country)
-/*****************
-	 How this Differs from the Baseline Results:
-	 Controlling for continent shocks, the results remain robust because the
-	 estimations are positive and highly significant with the same magnitude.
-	 This confirms the fact that potatoes caused the change and not the 
-	 'Western Experience', e.g. Industrial Revolution.
-*****************/
 
 //**************** Part D
-/*****************
-	 Intuitively, this allows us to measure the difference of potato suitable
-	 lands after the introduction of potatos with the areas where potatoes 
-	 where unsuitable before the introduction of potatoes.
-*****************/
 
 /*****************
 	 Question 5: Empirical Demography
@@ -274,49 +167,6 @@ areg ln_population ln_wpot_post `ln_rugged_flexible' `ln_tropical_flexible' `ln_
 	 equation is TFR (4) divided by two times the sex ratio (0.98). So,
 	 the equation is 4/(2*0.98) = 1.96. Therefore, the net rate of
 	 reproduction is 1.96 baby girls per woman.
-*****************/
-
-/*****************
-	 Question 7: Societial Change
-*****************/
-//**************** Part A
-/*****************
-	 i) It would increase because the probability of making it at older age
-	 remains weighted at 1 for a longer period of time. Therefore, the life
-	 expectancy will increase.
-	 ii) The TFR remains unchanged as the 0.2 birth rate remains unchanged,
-	 because the preference for children the number of children has not changed
-	 (0.2).
-	 iii) The net rate of reproduction also remains unchanged because of the
-	 same reasoning as before.
-*****************/
-
-//**************** Part B
-/*****************
-	 i) It would increase because the probability of living at an older age
-	 would increase. This implies that the middle range weighted at 0.5 is
-	 extended beyond 80 years.
-	 ii) Because it is only affecting the death for elderly, it should not
-	 change the TFR equation.
-	 iii) Again, for the same reasoning there should be no change in the net
-	 rate of reproduction.
-*****************/
-
-//**************** Part C
-/*****************
-	 i) This should not change the life expectancy equation.
-	 ii) Instead of 20*.2 it becomes 17*.2 which changes TFR to 3.4. Therefore,
-	 this increases the TFR.
-	 iii) Because of this new range of only 17 years, the net rate of 
-	 reproduction changes to 1.66.
-*****************/
-
-//**************** Part D
-/*****************
-	 i) There should be no changes to the life expectancy equation.
-	 ii) The TFR should not be changed by changes in the sex ratio.
-	 iii) Because there are more women in respect to men, the net rate of 
-	 reproduction increases to 1.8.
 *****************/
 
 save "`edit'\Assignment_4.dta" , replace
