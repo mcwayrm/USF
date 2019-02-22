@@ -20,9 +20,9 @@ Description:
 global USER "Team CRAKL"
 local date `c(current_date)'
 local time `c(current_time)'
-local input	"C:\Users\Ryry\Dropbox\Econ-672-Econ-Dev\Assignment_3\raw"
-local output "C:\Users\Ryry\Dropbox\Econ-672-Econ-Dev\Assignment_3\text"
-local edit "C:\Users\Ryry\Dropbox\Econ-672-Econ-Dev\Assignment_3\edit"
+local input	"raw"
+local output "text"
+local edit "edit"
 **************************************************************************
 display "Analysis run by $USER for Assignment 3 at `date' and `time'"
 
