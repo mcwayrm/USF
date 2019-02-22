@@ -7,7 +7,7 @@ output:
   ###**ECON663-Experimental Economics**
 setwd("")
 library("readxl")
-sample2 <- read_excel("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ663-Experimental/Experiment_Journals/DataOralDoubleAuction.xlsx", sheet = "Data")
+sample <- read_excel("raw", sheet = "Data")
 View(sample2)
 
 #Supply and Demand
@@ -42,12 +42,12 @@ plot(demand, type = "l",
 mtext("(15.5,10.5)", at = 12.5)
 
 #T-Test for each period in order
-t.test(sample2$PriceP1, mu=12)
-t.test(sample2$PriceP2, mu=12)
-t.test(sample2$PriceP3, mu=15.5)
+t.test(sample$PriceP1, mu=12)
+t.test(sample$PriceP2, mu=12)
+t.test(sample$PriceP3, mu=15.5)
 
 #Market Price over Period
-plot(Transactions~Price1, Data = sample2, 
+plot(Transactions~Price1, Data = sample, 
      type = "l",
      lty = 2,
      col = "Dark Green",
@@ -55,13 +55,13 @@ plot(Transactions~Price1, Data = sample2,
      ylab = "Bid/Ask Equilibrium Price (P)",
      xlab = "Transactions (Q)")
 par(new=T)
-plot(sort(sample2$PriceP2),
+plot(sort(sample$PriceP2),
      type = "l",
      lty = 2,
      col = "Red"
      )
 par(new=T)
-plot(sort(sample2$PriceP3), 
+plot(sort(sample$PriceP3), 
      type = "l",
      col = "Maroon",
      lty = 2,
