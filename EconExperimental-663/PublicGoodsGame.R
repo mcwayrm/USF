@@ -6,11 +6,11 @@ output:
 ---
   ###**ECON663-Experimental Economics**
 library("readxl")
-sample4 <- read_excel("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ663-Experimental/Experiment_Journals/PublicGoodGame.xlsx", sheet = "Data")
-print(sample4)
-t.test(sample4$MinGrowth, mu=1)
+sample <- read_excel("raw", sheet = "Data")
+print(sample)
+t.test(sample$MinGrowth, mu=1)
 
-plot(sample4$Game, sample4$MinGrowth,
+plot(sample$Game, sample$MinGrowth,
      type= "b",
      ylab= "Minimum Growth",
      xlab= "Game",
