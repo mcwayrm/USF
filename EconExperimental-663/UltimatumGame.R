@@ -6,7 +6,7 @@ output:
 ---
   ###**ECON663-Experimental Economics**
   library(readxl)
-sample <- read_excel("Ryan/Documents/USF/2019-Spring/Econ663-Experimental/Experiment_Journals/DictatorUltimatumData.xlsx")
+sample <- read_excel("DictatorUltimatumData.xlsx")
 print(sample)
 t.test(sample$ULT_SEND, mu=0)
 
