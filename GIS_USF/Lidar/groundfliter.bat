@@ -1,0 +1,2 @@
+C:\fusion\groundfilter /gparam:-1 /wparam:2 /tolerance:0.1  /iterations:10 C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sewanee\LASclip\SewaneeGroundpoints.lda 2 C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sewanee\LASclip\SewaneeClipped.lda
+C:\fusion\groundfilter /gparam:-1 /wparam:2 /tolerance:0.1 /iterations:10 C:\Users\GSAL\Documents\LiDAR-McWay\04_Class\Lubrecht\GroundSurface\Lub_Groundpoints.las 2 C:\Users\GSAL\Documents\LiDAR-McWay\04_Class\Lubrecht\Lub_FileList.txt
