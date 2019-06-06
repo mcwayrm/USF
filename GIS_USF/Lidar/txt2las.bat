@@ -1,0 +1,3 @@
+C:\LAStools\bin\txt2las -i C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sagehen\pt000001.txyzar -o C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sagehen\LAS\pt000001.las -parse txyzar -utm 10S
+C:\LAStools\bin\txt2las -i C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sagehen\pt000002.txyzar -o C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sagehen\LAS\pt000002.las -parse txyzar -utm 10S
+C:\LAStools\bin\txt2las -i C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sagehen\pt000003.txyzar -o C:\Users\GSAL\Documents\LiDAR-McWay\02_Class\02_Data\Sagehen\LAS\pt000003.las -parse txyzar -utm 10S
