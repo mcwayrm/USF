@@ -1,0 +1,22 @@
+---
+title: "Risk Game"
+author: "Ryan McWay"
+output:
+  word_document: default
+---
+```{r, echo= FALSE}
+library("readxl")
+sample <- read_excel("data.xlsx", sheet = "Results")
+View(sample)
+
+t.test(sample$`Lottery Choice` , mu= 3.5)
+sort(sample$`Lottery Choice`)
+plot(sample$Subject, sample$`Lottery Choice`, 
+     type = "p",
+     col = "Dark Red",
+     main = "Lottery Choice by Suject",
+     sub = "Choices range from Risk Averse (1) to Risk Loving (6)",
+     ylab = "Lottery Choice",
+     xlab = "Subject")
+
+```
