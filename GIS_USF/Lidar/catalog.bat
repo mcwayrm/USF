@@ -1,0 +1,1 @@
+C:\FUSION\catalog /image /index /coverage /firstdensity:2,1,3 /intensity:2,0,255 /outlier C:\Users\GSAL\Documents\LiDAR-McWay\04_Class\Lubrecht\Lub_FileList.txt C:\Users\GSAL\Documents\LiDAR-McWay\04_Class\Lubrecht\lub_cat
