@@ -1,0 +1,168 @@
+---
+title: "Love Experiment"
+author: "The Love Experts"
+abstract: |
+  Descriptive Statistics.
+output: 
+  word_document: default
+---
+# Setup
+```{r, echo = FALSE}
+# Library Calls and Set Working Directory
+library(readstata13)
+library(utils)
+library(cobalt)
+library(tidyverse)
+```
+```{r, echo = FALSE}
+# Remarks: You will need to change the path for each user when you run it. Additionally, \ has a special place in R, so you have to switch you \ to / or R will not recognize the path. Annoying, but important to know.
+setwd("home/edit")
+unzip("home/edit", files = "master.dta")
+data <- read.dta13("master.dta")
+panel <- read.dta13("home/edit/panel.dta")
+```
+## Dictator
+```{r, echo = FALSE}
+
+panel %>% 
+  ggplot(mapping = aes(x= Dict_Sent, y= ..density..)) +
+  geom_histogram(aes(colour= "Blue", fill= "Pink"), binwidth= .5, show.legend = FALSE) +
+  labs(title= "Histogram",
+       subtitle= "Amount Sent in Dictator Game",
+       x= "Amount Sent",
+       y= "Density")
+
+panel %>% 
+  ggplot(mapping = aes(x= Dict_Sent,  y= ..density.., fill= Sex)) +
+  geom_bar(binwidth= .5, position= "dodge") +
+  labs(title= "Histogram",
+       subtitle= "Amount Sent in Dictator Game by Sex",
+       x= "Amount Sent",
+       y= "Density",
+       colour = "LGBTQ and Hetero")
+
+panel %>% 
+  ggplot(mapping = aes(x= Dict_Sent, y= ..density.., fill= Gender)) +
+  geom_bar(binwidth= .5, position= "dodge") +
+  labs(title= "Histogram",
+       subtitle= "Amount Sent in Dictator Game by Gender",
+       x= "Amount Sent",
+       y= "Density",
+       colour = "Gender Orientation")
+
+panel %>% 
+  ggplot(mapping = aes(x= Dict_Sent,  y= ..density.., fill= Love)) +
+  geom_bar(binwidth= .5, position= "dodge") +
+  labs(title= "Histogram",
+       subtitle= "Amount Sent in Dictator Game by Love",
+       x= "Amount Sent",
+       y= "Density",
+       colour = "Love Status")
+
+data %>% 
+  ggplot(mapping = aes(x = Sex, y = Dict_Sent, group = Sex)) +
+  geom_boxplot(mapping = aes(colour = Sex)) +
+  labs(title= "Box-Whisker Plot",
+       subtitle= "Amount Sent in Dictator Game by Sex",
+       x= "Sexual Orientation",
+       y= "Amount Sent",
+       colour = "LGBTQ and Hetero")
+
+data %>% 
+  ggplot(mapping = aes(x = Gender, y = Dict_Sent, group = Gender)) +
+  geom_boxplot(mapping = aes(colour = Gender)) +
+  labs(title= "Box-Whisker Plot",
+       subtitle= "Amount Sent in Dictator Game by Gender",
+       x= "Gender",
+       y= "Amount Sent",
+       colour = "Gender Orientation")
+
+data %>% 
+  ggplot(mapping = aes(x = Love, y = Dict_Sent, group = Love)) +
+  geom_boxplot(mapping = aes(colour = Love)) +
+  labs(title= "Box-Whisker Plot",
+       subtitle= "Amount Sent in Dictator Game by Love",
+       x= "Love Status",
+       y= "Amount Sent",
+       colour = "Love Status")
+
+```
+## Risk
+```{r, echo = FALSE}
+
+panel %>% 
+  ggplot(mapping = aes(x= risk_avg)) +
+  geom_density(aes(fill="Pink"), alpha=0.8, show.legend = FALSE) +
+  labs(title= "Density Plot",
+       subtitle= "Average Choice in Risk Game",
+       x= "Risk Choice",
+       y= "Density")
+
+panel %>% 
+  ggplot(mapping = aes(x = round, y = choice, group = round)) +
+  geom_boxplot(mapping = aes(colour = round)) +
+  theme(axis.text.x= element_text(angle=45, hjust=1)) +
+  labs(title= "Box-Whisker Plot",
+       subtitle= "Average Choice in Risk Game by Round",
+       x= "Rounds",
+       y= "Risk Choice",
+       colour = "Rounds")
+
+qplot(Gender, risk_avg, data = panel, geom = "violin",
+      stackdir = "center", binaxis = "y", dotsize = 0.5, colour = Gender) + 
+  coord_flip() +
+  labs(title= "Violin Dot Plot",
+       subtitle= "Average Choice in Risk Game by Gender",
+       x= "Risk Choice",
+       y= "Gender",
+       colour = "Gender Orientation")
+
+qplot(Sex, risk_avg, data = panel, geom = "violin",
+      stackdir = "center", binaxis = "y", dotsize = 0.5, colour = Sex) + 
+  coord_flip() +
+    labs(title= "Violin Plot",
+       subtitle= "Average Choice in Risk Game by Sex",
+       x= "Risk Choice",
+       y= "Sex",
+       colour = "LGBTQ and Hetero")
+
+qplot(Love, risk_avg, data = panel, geom = "violin",
+      stackdir = "center", binaxis = "y", dotsize = 0.5, colour = Love) + 
+  coord_flip() +
+    labs(title= "Violin Plot",
+       subtitle= "Average Choice in Risk Game by Love",
+       x= "Risk Choice",
+       y= "Love Status",
+       colour = "Love Status")
+
+panel %>% 
+  ggplot(mapping = aes(x= risk_avg, y= ..density.., fill= Sex)) +
+  geom_bar(binwidth= .5, position= "dodge") +
+  coord_flip() +
+  labs(title= "Histogram",
+       subtitle= "Average Choice in Risk Game by Sex",
+       x= "Amount Risk Choice",
+       y= "Density",
+       colour = "LGBTQ and Hetero")
+
+panel %>% 
+  ggplot(mapping = aes(x= risk_avg, y= ..density.., fill= Gender)) +
+  geom_bar(binwidth= .5, position= "dodge") +
+  coord_flip() +
+  labs(title= "Histogram",
+       subtitle= "Average Choice in Risk Game by Gender",
+       x= "Amount Risk Choice",
+       y= "Density",
+       colour = "Gender Orientation")
+
+panel %>% 
+  ggplot(mapping = aes(x= risk_avg, y= ..density.., fill= Love)) +
+  geom_bar(binwidth= .5, position= "dodge") +
+  coord_flip() +
+  labs(title= "Histogram",
+       subtitle= "Average Choice in Risk Game by Love",
+       x= "Amount Risk Choice",
+       y= "Density",
+       colour = "Love Status")
+
+```
