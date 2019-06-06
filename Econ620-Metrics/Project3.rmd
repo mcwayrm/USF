@@ -1,0 +1,191 @@
+---
+title: "Homework 5"
+author: "Ryan McWay"
+abstract: |
+  Graduate Econometrics
+  Apr 8th 2019
+  Empirical Project 3: Working in R
+output:
+  word_document: default
+---
+
+```{r, echo = FALSE}
+library(tidyverse)
+library(readxl)
+library(mosaic)
+library(readstata13)
+```
+## Section 3.1
+```{r, echo = TRUE}
+meta <- read_excel("local/sps_public.xlsx", sheet = "Data Dictionary")
+data <- read_excel("local/sps_public.xlsx", sheet = "Data")
+
+```
+```{r, echo = TRUE}
+data$type <- factor(data$type)
+data$taxed <- factor(data$taxed, labels=c("not taxed","taxed"))
+data$supp <- factor(data$supp,labels=c("Standard","Supplemental"))
+data$store_id <- factor(data$store_id)
+data$store_type <- factor(data$store_type,labels=c("Large Supermarket", "Small Supermarket", "Pharmacy", "Gas Station"))
+data$type2 <- factor(data$type2)
+data$product_id <- factor(data$product_id)
+unique(data$time)
+data$time[data$time == "MAR2015"] <- "MAR2016" # 
+data$time <- factor(data$time)
+```
+### Question 1
+(a) 
+
+(b) 
+```{r, echo = TRUE}
+n_stores <- length(unique(data$store_id))
+n_products <- length(unique(data$product_id))
+paste("Stores:", n_stores)
+paste("Products:", n_products)
+```
+
+### Question 2
+(a) 
+```{r, echo = TRUE}
+tally(~store_type+time, data=data, margins = TRUE, format = "count")
+```
+
+(b) 
+```{r, echo = TRUE}
+tally(~store_type+taxed+time, data=data, margins = TRUE, format = "count")
+```
+
+(c) 
+```{r, echo = TRUE}
+tally(~type+time, data=data, margins = TRUE, format = "count")
+```
+
+### Question 3
+(a) 
+```{r, echo = TRUE}
+data$period_test <- NA
+sid_list = unique(data$store_id)
+pid_list = unique(data$product_id)
+for (s in sid_list) {
+  for (p in pid_list) {
+    temp <- subset(data, product_id == p & store_id == s)
+    temp_time <- temp$time
+    test <- (any(temp_time == "DEC2014") & any(temp_time == "JUN2015") &
+      any(temp_time == "MAR2016"))
+    data$period_test[data$product_id == p & data$store_id == s] <- test
+  }
+}
+data_c <- subset(data,(period_test == TRUE & supp == "Standard"))
+table_res <- data_c %>%
+  group_by(taxed,store_type,time) %>%
+  summarize(n = length(price_per_oz),avg.price = mean(price_per_oz)) %>%
+  spread(time,avg.price) %>%  
+  print()
+```
+(b) 
+
+(c)
+
+### Question 4
+(a)
+```{r, echo = TRUE}
+table_res$Diff14_15 <- table_res$JUN2015 - table_res$DEC2014
+table_res$Diff15_16 <- table_res$MAR2016 - table_res$DEC2014
+print("Group Means")
+table_res
+```
+(b)
+```{r, echo = TRUE}
+ggplot(table_res, aes(fill=taxed, y=Diff14_15, x=store_type)) +
+  geom_bar(position="dodge", stat="identity") +
+  labs(y = "Price change (US$/oz)", x = "Store type") +
+  scale_fill_discrete(name="Beverages",labels= c("Non-taxed", "Taxed")) +
+  ggtitle("Average price change from Dec 2014 to Jun 2015") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(table_res, aes(fill=taxed, y=Diff15_16, x=store_type)) +
+  geom_bar(position="dodge", stat="identity") +
+  labs(y = "Price change (US$/oz)", x = "Store type") + 
+  scale_fill_discrete(name="Beverages", labels= c("Non-taxed", "Taxed")) +
+  ggtitle("Average price change from Jun 2015 to Mar 2016") + 
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Question 5
+```{r, echo = TRUE}
+price14 <- data_c$price_per_oz[data_c$store_type=="Large Supermarket" & data_c$taxed == "taxed" & data_c$time=="DEC2014"]
+price15 <- data_c$price_per_oz[data_c$store_type=="Large Supermarket" & data_c$taxed == "taxed" & data_c$time=="JUN2015"]
+d_t <- price15-price14
+
+price14_alt <- data_c[data_c$store_type=="Large Supermarket" & data_c$taxed == "taxed" & data_c$time=="DEC2014",c("product_id","store_id","price_per_oz")]
+price15_alt <- data_c[data_c$store_type=="Large Supermarket" & data_c$taxed == "taxed" & data_c$time=="JUN2015",c("product_id","store_id","price_per_oz")]
+
+t <- mean(d_t)/sqrt(var(d_t)/(length(d_t)))
+print(t)
+t.test(price15,price14,paired=TRUE)
+
+price14_nt <- data_c$price_per_oz[data_c$store_type=="Large Supermarket" & data_c$taxed == "not taxed" & data_c$time=="DEC2014"]
+price15_nt <- data_c$price_per_oz[data_c$store_type=="Large Supermarket" & data_c$taxed == "not taxed" & data_c$time=="JUN2015"] 
+d_nt <- price15_nt - price14_nt
+t.test(price15_nt,price14_nt,paired=TRUE)
+
+t.test(d_t,d_nt)
+```
+## Section 3.2
+
+### Question 1
+
+### Question 2
+(a) 
+```{r, echo = FALSE}
+PoSd <- read.dta13("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ620-GradEconometrics/Homework_5/public_use_weighted_prices.dta")
+str(PoSd)
+```
+```{r, echo = TRUE}
+table_test <- PoSd %>%
+  group_by(year,month,location,tax) %>%
+  summarize(avg.price = mean(price)) %>% spread(location,avg.price) %>%
+  print()
+tax_table <- subset(table_test,tax == "Taxed")
+ntax_table <- subset(table_test,tax == "Non-taxed")
+print(tax_table)
+print(ntax_table)
+```
+(b) 
+```{r, echo = TRUE}
+tax_table$Berkeley <- ts(tax_table$Berkeley, start=c(2013,1), end=c(2016,3), frequency=12)
+tax_table$'Non-Berkeley' <- ts(tax_table$'Non-Berkeley', start=c(2013,1), end=c(2016,3), frequency=12)
+ntax_table$Berkeley <- ts(ntax_table$Berkeley, start=c(2013,1), end=c(2016,3), frequency=12)
+ntax_table$'Non-Berkeley' <- ts(ntax_table$'Non-Berkeley', start=c(2013,1), end=c(2016,3), frequency=12)
+
+plot(tax_table$Berkeley, col = "deepskyblue4", lwd=2, ylab = "Average price", xlab = "Time", ylim=c(4, 12) )
+title("Average price of taxed and non-taxed beverages \n in Berkeley and non-Berkeley areas")
+lines(tax_table$'Non-Berkeley',col="deeppink",lwd=2)
+lines(ntax_table$Berkeley,col="darkgreen",lwd=2)
+lines(ntax_table$'Non-Berkeley',col="darkred",lwd=2)
+abline(v = 2015.1, col = "grey")
+abline(v = 2015.3, col = "grey")
+text(2014.6,4,"Pre-tax")
+text(2015.8,4,"Post-tax")
+legend("topleft",legend=c("Taxed (Berkeley)", "Taxed (non-Berkeley)", "Non-taxed (Berkeley)", "Non-taxed (non-Berkeley)"),col=c("deepskyblue4", "deeppink", "darkgreen", "darkred"), lwd=2,lty=1, cex=0.6,ncol=1)
+```
+(c) 
+
+### Question 3
+```{r, echo = TRUE}
+price_berk_14 <- PoSd$price[PoSd$location=="Berkeley" & PoSd$tax == "Taxed" & PoSd$year==2014]
+price_berk_15 <- PoSd$price[PoSd$location=="Berkeley" & PoSd$tax == "Taxed" & PoSd$year==2015]
+berk_sugar <- price_berk_15 - price_berk_14
+
+price_other_14 <- PoSd$price[PoSd$location=="Non-Berkeley" & PoSd$tax == "Taxed" & PoSd$year==2014]
+price_other_15 <- PoSd$price[PoSd$location=="Non-Berkeley" & PoSd$tax == "Taxed" & PoSd$year==2015]
+other_sugar <- price_other_15 - price_other_14
+
+t.test(berk_sugar, other_sugar)
+```
+### Question 4
+
+### Question 5
+
+### Question 6 
+
