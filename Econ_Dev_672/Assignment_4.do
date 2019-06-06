@@ -148,26 +148,11 @@ areg ln_population ln_wpot_post `ln_rugged_flexible' `ln_tropical_flexible' `ln_
 	 Question 6: Survivorship and Age-specific Fertility Rates
 *****************/
 //*************** Part A
-/****************
-	 With the summation of 0-30 weighted at 1, 30-80 at 0.5, and 80+ at 0,
-	 the equation becomes 30*1+50*.05+80*0 which equals 55. Therefore, the
-	 life expectancy is 55 years old.
-****************/
 
 //**************** Part B
-/*****************
-	 With the summation of 0-20 weighted at 0, 20-40 at 0.2, and 40+ at 0,
-	 the equation becomes 20*0+20*0.2+0 which equals 4. Therefore, the TFR is
-	 4 children per woman.
-*****************/
 
 //**************** Part C
-/*****************
-	 Assuming that the sex ratio is 98 females for every 100 males, the 
-	 equation is TFR (4) divided by two times the sex ratio (0.98). So,
-	 the equation is 4/(2*0.98) = 1.96. Therefore, the net rate of
-	 reproduction is 1.96 baby girls per woman.
-*****************/
+
 
 save "`edit'\Assignment_4.dta" , replace
 cd "`output'"
