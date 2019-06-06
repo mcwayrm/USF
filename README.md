@@ -1,4 +1,4 @@
-### Code for Economics Courses taken at University of San Francisco
+### Scripts and Code for my studies at the University of San Francisco
 Econ663 - Experimental Economics
           (Gender Experiment)           
 
