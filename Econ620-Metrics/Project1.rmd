@@ -1,0 +1,301 @@
+---
+title: "CORE Doing Economics Project 1"
+author: "Ryan McWay"
+output:
+  word_document: default
+---
+##**ECON620-Graduate Econometrics**
+***
+## _Part1.1 The Behavior of Average Surface Tempature Over Time_
+
+### Q1. In this dataset, temperature is measured as 'anomalies' rather than as absolute temperature. Using NASA's Frequently Asked Questions section as a reference, explain in your own words what temperature 'anomalies' means. Why have researchers chosen this particular measure over other measures 
+
+```{r, echo = TRUE}
+setwd("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ620-GradEconometrics/Homework_4/CORE_Project/raw")
+
+tempdata <- read.csv("NH_Temp.csv",skip=1,na.strings="***")
+head(tempdata)
+str(tempdata)
+```
+
+### Q2. Choose one month and plot a line chart with average temperature anomaly on the vertical axis and time (1880-2016) on the horizontal axis. Label each axis appropriately and give your chart a suitable title (Refer to Figure 1.1 as an example.)
+```{r, echo= TRUE}
+tempdata$Jan <- ts(tempdata$Jan, start=c(1880), end=c(2019), frequency=1) 
+tempdata$DJF <- ts(tempdata$DJF, start=c(1880), end=c(2019), frequency=1) 
+tempdata$MAM <- ts(tempdata$MAM, start=c(1880), end=c(2019), frequency=1) 
+tempdata$JJA <- ts(tempdata$JJA, start=c(1880), end=c(2019), frequency=1) 
+tempdata$SON <- ts(tempdata$SON, start=c(1880), end=c(2019), frequency=1) 
+tempdata$J.D <- ts(tempdata$J.D, start=c(1880), end=c(2019), frequency=1)
+plot(tempdata$Jan,type="l",col="blue", lwd = 2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average temperature anomaly in January \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="Darkred",lwd = 2, lty= 2)
+text(2000,-0.1,"1951-1980 average")
+```
+
+### Q3.The columns labelled DJF, MAM, JJA, and SON contain seasonal averages (means). For example, the MAM column contains the average of the March, April, and May columns for each year. Plot a separate line chart for each season, using average temperature anomaly for that season on the vertical axis and time (1880-2016) on the horizontal axis.
+#### DJF
+```{r, echo= TRUE}
+plot(tempdata$DJF,type="l",col="blue", lwd = 2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average temperature anomaly in December, January, and Feburary \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="Darkred",lwd = 2, lty= 2)
+text(2000,-0.1,"1951-1980 average")
+```
+
+#### MAM
+```{r, echo= TRUE}
+plot(tempdata$MAM,type="l",col="blue", lwd = 2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average temperature anomaly in March, April and May \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="Darkred",lwd = 2, lty= 2)
+text(2000,-0.1,"1951-1980 average")
+```
+
+#### JJA
+```{r, echo= TRUE}
+plot(tempdata$JJA,type="l",col="blue", lwd = 2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average temperature anomaly in June, July and August \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="Darkred",lwd = 2, lty= 2)
+text(2000,-0.1,"1951-1980 average")
+```
+
+#### SON
+```{r, echo= TRUE}
+plot(tempdata$SON,type="l",col="blue", lwd = 2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average temperature anomaly in September, October, and Novemeber \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="Darkred",lwd = 2, lty= 2)
+text(2005,-0.1,"1951-1980 average")
+```
+
+### Q4. The column labelled J-D contains the average temperature anomaly for each year. 
+####(a) Plot a line chart with annual average temperature anomaly on the vertical axis and time (1880-2016) on the horizontal axis. Your chart should look like Figure 1.1. Extension: Add a horizontal line that intersects the vertical axis at 0, and label it '1951-1980 average'. 
+```{r, echo= TRUE}
+plot(tempdata$J.D,type="l",col="blue",lwd = 2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average annual temperature anomaly \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="darkorange2",lwd = 2)
+text(2000,-0.1,"1951-1980 average")
+```
+
+#### (b) What do your charts from Questions 2 to 4(a) suggest about the relationship between temperature and time?
+
+### Q5. You now have charts for three different time intervals: month, season, and year. For each time interval, discuss what we can learn about patterns in temperature over time that we might not be able to learn from the charts of other time intervals.
+
+
+### Q6. Compare your chart from Question 4 to Figure 1.4, which also shows the behaviour of temperature over time using data taken from the National Academy of Sciences.
+#### (a) Discuss the similarities and differences between the charts. (For example, are the horizontal and vertical axes variables the same, or do the lines have the same shape?)
+
+#### (b) Looking at the behaviour of temperature over time from 1000 to 1900 in Figure 1.4, are the observed patterns in your chart unusual?
+
+#### (c) Based on your answers to Questions 4 and 5, do you think the government should be concerned about climate change?
+
+***
+## _Part1.2 Variation in Tempature Over Time_
+
+### Q1. Using the monthly data for June, July, and August, create two frequency tables similar to Figure 1.5 below for the years 1951-1980 and 1981-2010 respectively. The values in the first column should range from ???0.3 to 1.05, in intervals of 0.05. See Walk-through 1.3 for how to do this.
+```{r, echo= TRUE}
+tempdata$Period <- factor(NA,levels=c("1921-1950","1951-1980","1981-2010"),ordered=TRUE)
+tempdata$Period[(tempdata$Year > 1920) & (tempdata$Year < 1951)] <- "1921-1950"
+tempdata$Period[(tempdata$Year > 1950) & (tempdata$Year < 1981)] <- "1951-1980"
+tempdata$Period[(tempdata$Year > 1980) & (tempdata$Year < 2011)] <- "1981-2010"
+temp_summer <- c(tempdata$Jun, tempdata$Jul, tempdata$Aug)
+#or
+temp_summer <- unlist(tempdata[,7:9],use.names = FALSE)
+temp_Period <- c(tempdata$Period,tempdata$Period,tempdata$Period)
+temp_Period <- factor(temp_Period, levels=1:nlevels(tempdata$Period), labels=levels(tempdata$Period))
+hist(temp_summer[(temp_Period == "1951-1980")],plot=FALSE)
+hist(temp_summer[(temp_Period == "1981-2010")],plot=FALSE)
+```
+```{r, echo= TRUE}
+library(mosaic)
+histogram(~ temp_summer | temp_Period, type = "count", breaks = seq(-0.5,1.3,0.10), main="Histogram of Temperature anomalies", xlab = "Summer temperature distribution")
+```
+
+### Q2. Using the frequency tables from Question 1:
+#### (a) Plot two separate column charts (frequency histograms) for 1951-1980 and 1981-2010 to show the distribution of temperatures, with frequency on the vertical axis and the range of temperature anomaly on the horizontal axis. Your charts should look similar to those in the New York Times article.
+```{r, echo= TRUE}
+library(mosaic)
+histogram(~ temp_summer | temp_Period, type = "count", breaks = seq(-0.5,1.3,0.10), main="Histogram of Temperature anomalies", xlab = "Summer temperature distribution")
+```
+
+#### (b) Using your charts, describe the similarities and differences (if any) between the distributions of temperature anomalies in 1951-1980 and 1981-2010.
+
+### Q3. The New York Times article considers the bottom third (the lowest or coldest one-third) of temperature anomalies in 1951-1980 as 'cold' and the top third (the highest or hottest one-third) of anomalies as 'hot'. In decile terms, temperatures in the 1st to 3rd decile are 'cold' and temperatures in the 7th to 10th decile or above are 'hot' (rounded to the nearest decile). Use R's quantile function to determine what values correspond to the 3rd and 7th decile across all months in 1951-1980.
+```{r, echo= TRUE}
+temp_all_months <- subset(tempdata, (Year>=1951 & Year <=1980))
+temp_51to80 <- unlist(temp_all_months[,2:13])
+perc <- quantile(temp_51to80, c(0.3, 0.7))
+p30 <- perc[1]
+p30
+p70 <- perc[2]
+p70
+```
+
+### Q4. Based on the values you found in Question 3, count the number of anomalies that are considered 'hot' in 1981-2010, and express this as a percentage of all the temperature observations in that period. Does your answer suggest that we are experiencing hotter weather more frequently in 1981-2010? (Remember that each decile represents 10% of observations, so 30% of temperatures were considered 'hot' in 1951-1980.)
+```{r, echo= TRUE}
+temp_all_months <- subset(tempdata, (Year>=1981 & Year <=2010))
+temp_81to10 <- unlist(temp_all_months[,2:13])
+paste("Proportion smaller than p30")
+temp <- temp_81to10 < p30
+mean(temp)
+paste("Proportion larger than p70")
+mean(temp_81to10 > p70)
+```
+
+### Q5. The New York Times article discusses whether temperatures have become more variable over time. One way to measure temperature variability is by calculating the variance of the temperature distribution for each season (DJF, MAM, JJA, and SON).
+#### (a) Calculate the mean (average) and variance separately for the following time periods: 1921-1950, 1951-1980, and 1981-2010.
+```{r, echo= TRUE}
+temp_all_months <- subset(tempdata, (Year>=1921 & Year <=1950))
+temp_21to50 <- unlist(temp_all_months[,2:13])
+
+mean(temp_21to50)
+var(temp_21to50)
+mean(temp_51to80)
+var(temp_51to80)
+mean(temp_81to10)
+var(temp_81to10)
+```
+
+#### (b) For each season, compare the variances in different periods, and explain whether or not temperature appears to be more variable in later periods.
+```{r, echo= TRUE}
+paste("Mean and Variance of DJF temperature anomalies across periods")
+mean(~DJF|Period,data = tempdata)
+var(~DJF|Period,data = tempdata)
+paste("Variance of MAM temperature anomalies across periods")
+var(~MAM|Period,data = tempdata)
+paste("Variance of JJA temperature anomalies across periods")
+var(~JJA|Period,data = tempdata)
+paste("Variance of SON temperature anomalies across periods")
+var(~SON|Period,data = tempdata)
+
+plot(tempdata$DJF,type="l",col="blue",lwd=2,
+     ylab="Annual temperature anomalies", xlab="Year")
+title("Average temperature anomaly in DJF and JJA \n in the northern hemisphere (1880-2016)")
+abline(h=0,col="darkorange2",lwd=2)
+lines(tempdata$JJA,col="darkgreen",lwd=2) 
+text(1895,0.1,"1951-1980 average")
+legend(1880, 1.5, legend=c("DJF", "JJA"),col=c("blue", "darkgreen"), lty=1, cex=0.8,lwd=2)
+```
+
+
+### Q6. Using the findings of the New York Times article and your answers to Questions 1 to 5, discuss whether temperature appears to be more variable over time. Would you advise the government to spend more money on mitigating the effects of extreme weather events?
+
+***
+## _Part 1.3 Carbon Emissions and the Environment_
+
+```{r, echo= TRUE}
+setwd("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ620-GradEconometrics/Homework_4/CORE_Project/raw")
+CO2data <- read.csv("1_CO2-data.csv")
+```
+
+### Q1. The CO2 data was recorded from one observatory in Mauna Loa. Using an Earth System Research Laboratory article as a reference, explain whether or not you think this data is a reliable representation of the global atmosphere.
+
+### Q2. The variables trend and interpolated are similar, but not identical. In your own words, explain the difference between these two measures of CO2 levels. Why might there be seasonal variation in CO2 levels?
+
+### Q3. Plot a line chart with interpolated and trend CO2 levels on the vertical axis and time (starting from January 1960) on the horizontal axis. Label the axes and the chart legend, and give your chart an appropriate title. What does this chart suggest about the relationship between CO2 and time?
+```{r, echo= TRUE}
+plot(CO2data$Year,CO2data$Interpolated,type="l",col="blue",lwd=2,
+     ylab="CO2 Emissions", xlab="Year")
+title("Monthly Interpolated and Trend CO2 Emissions (1958-2017")
+lines(CO2data$Year,CO2data$Trend,col="red",lwd=2) 
+legend(1960, 400, legend=c("Interpolated", "Trend"),col=c("purple", "red"), lty=1, cex=0.8,lwd=2)
+```
+
+
+### Q4. Choose one month and add the CO2 trend data to the temperature dataset from Part 1.1, making sure that the data corresponds to the correct year.
+```{r, echo= TRUE}
+CO2data_june <- CO2data[CO2data$Month == 6,]
+tempCO2data <- merge(tempdata,CO2data_june)
+head(tempCO2data[,c("Year","Jun","Trend")])
+```
+
+#### (a) Make a scatterplot of CO2 level on the vertical axis and temperature anomaly on the horizontal axis.
+```{r, echo= TRUE}
+plot(tempCO2data$Jun, tempCO2data$Trend, xlab="Temperature anomaly (degrees Celsius)", ylab="CO2 levels (trend, mole fraction)", pch=16, col="blue")
+title("Scatterplot for CO2 emissions and temperature anomalies")
+```
+
+#### (b) Calculate and interpret the (Pearson) correlation coefficient between these two variables.
+```{r, echo= TRUE}
+cor(tempCO2data$Jun, tempCO2data$Trend)
+```
+```{r, echo= TRUE}
+str(tempCO2data)
+tempCO2data$Jun <- ts(tempCO2data$Jun, start=c(1958), end=c(2017), frequency=1) 
+tempCO2data$Trend <- ts(tempCO2data$Trend, start=c(1958), end=c(2017), frequency=1) 
+
+par(mar = c(5,5,2,5))
+plot(tempCO2data$Jun,type="l",col="blue",lwd=2,
+     ylab="June temperature anomalies", xlab="Year")
+title("June temperature anomalies and CO2 emissions")  
+par(new = T)
+plot(tempCO2data$Trend, pch=16, lwd=2, axes=FALSE, xlab=NA, ylab=NA, cex=1.2)
+axis(side = 4)
+mtext(side = 4, line = 3, 'CO2 emissions')
+legend("topleft",
+       legend=c("June temp anom", "CO2 emis"),
+       lty=c(1,1), col=c("blue", "black"),lwd=2)
+```
+
+### Q5. Choose two months and add the CO2 trend data to the temperature dataset from Part 1.1, making sure that the data corresponds to the correct year.
+```{r, echo= TRUE}
+CO2data_july <- CO2data[CO2data$Month == 7,]
+tempCO2july <- merge(tempdata,CO2data_july)
+head(tempCO2data[,c("Year","Jun","Trend")])
+```
+```{r, echo= TRUE}
+CO2data_aug <- CO2data[CO2data$Month == 8,]
+tempCO2aug <- merge(tempdata,CO2data_aug)
+head(tempCO2data[,c("Year","Jun","Trend")])
+```
+
+#### (a) Create a separate chart for each month. What do your charts and the correlation coefficients suggest about the relationship between CO2 levels and temperature anomalies?
+```{r, echo= TRUE}
+paste("CO2 for July")
+cor(tempCO2july$Jul, tempCO2july$Trend)
+
+par(mar = c(5,5,2,5))
+plot(tempCO2july$Jul,type="l",col="blue",lwd=2,
+     ylab="July temperature anomalies", xlab="Year")
+title("July temperature anomalies and CO2 emissions")  
+par(new = T)
+plot(tempCO2july$Trend,type="l", lwd=2, axes=FALSE, xlab=NA, ylab=NA, cex=1.2)
+axis(side = 4)
+mtext(side = 4, line = 3, 'CO2 emissions')
+legend("topleft",
+       legend=c("July temp anom", "CO2 emis"),
+       lty=c(1,1), col=c("blue", "black"),lwd=2)
+```
+```{r, echo= TRUE}
+print("CO2 for August")
+cor(tempCO2aug$Aug, tempCO2aug$Trend)
+
+par(mar = c(5,5,2,5))
+plot(tempCO2aug$Aug,type="l",col="blue",lwd=2,
+     ylab="August temperature anomalies", xlab="Year")
+title("August temperature anomalies and CO2 emissions")  
+par(new = T)
+plot(tempCO2aug$Trend,type="l", lwd=2, axes=FALSE, xlab=NA, ylab=NA, cex=1.2)
+axis(side = 4)
+mtext(side = 4, line = 3, 'CO2 emissions')
+legend("topleft",
+       legend=c("Aug temp anom", "CO2 emis"),
+       lty=c(1,1), col=c("blue", "black"),lwd=2)
+```
+
+
+#### (b) Discuss the shortcomings of using this coefficient to summarize the relationship between variables.
+
+
+### Q6. Consider the example of spurious correlation above (Child Performance and House Size).
+
+#### (a) In your own words, explain spurious correlation and the difference between correlation and causation.
+
+#### (b) Give an example of spurious correlation, similar to the one above, for either CO2 levels or temperature anomalies.
+
+#### (c) Choose an example of spurious correlation from Tyler Vigen's website. Explain whether you think it is a coincidence, or whether this correlation could be due to one or more other variables.
+
+#### (d) Find some other examples of spurious correlations in the news, and briefly explain why they are spurious.
