@@ -13,8 +13,8 @@ Description:
 global USER "Ryan McWay"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "local"
-local input	"`home'\input"
+local home "<project folder>"
+local input "`home'\input"
 local output "`home'\output"
 **************************************************************************
 display "Analysis run by $USER for Homework #6 at `date' and `time'"
@@ -130,7 +130,7 @@ sum math4 math4_resid
 list if (math4_resid > 50)
 
 //(iv)
-gen lunchsq	= lunch^2
+gen lunchsq = lunch^2
 reg math4 lexppp lenroll lunch lunchsq
 
 
