@@ -6,7 +6,7 @@ output:
 ---
   ###**ECON663-Experimental Economics**
 library("readxl")
-sample <- read_excel("raw", sheet = "Data")
+sample <- read_excel("<raw>", sheet = "Data")
 print(sample3)
 t.test(sample$Price, mu=6) # Can be rejected
 t.test(sample$HighBid, mu=6) # These two are just for kicks
