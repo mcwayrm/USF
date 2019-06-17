@@ -16,10 +16,10 @@ library(tidyverse)
 ```
 ```{r, echo = FALSE}
 # Remarks: You will need to change the path for each user when you run it. Additionally, \ has a special place in R, so you have to switch you \ to / or R will not recognize the path. Annoying, but important to know.
-setwd("home/edit")
-unzip("home/edit", files = "master.dta")
-data <- read.dta13("master.dta")
-panel <- read.dta13("home/edit/panel.dta")
+setwd("<home/edit>")
+unzip("<home/edit>", files = "master.dta")
+data <- read.dta13("<master.dta>")
+panel <- read.dta13("<home/edit/panel.dta>")
 ```
 ## Dictator
 ```{r, echo = FALSE}
