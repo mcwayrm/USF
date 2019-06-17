@@ -21,9 +21,9 @@ Description:
 global USER "Team KRAZL"
 local date `c(current_date)'
 local time `c(current_time)'
-local input	"raw"
-local output "text"
-local edit "edit"
+local input "<input folder>"
+local output "<output folder>"
+local edit "<edit folder>"
 **************************************************************************
 display "Analysis run by $USER for Assignment 4 at `date' and `time'"
 
