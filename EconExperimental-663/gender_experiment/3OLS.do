@@ -12,10 +12,10 @@ Description:
 global USER "The Love Experts"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "local"
+local home "<project folder>"
 //***** All paths should be relative so that all you need to change is `home' in order to run the dofile.
 cd "`home'"
-local input	"`home'\input"
+local input "`home'\input"
 local edit "`home'\edit"
 local output "`home'\output"
 **************************************************************************
