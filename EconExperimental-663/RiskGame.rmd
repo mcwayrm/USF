@@ -6,7 +6,7 @@ output:
 ---
 ```{r, echo= FALSE}
 library("readxl")
-sample <- read_excel("data.xlsx", sheet = "Results")
+sample <- read_excel("<data.xlsx>", sheet = "Results")
 View(sample)
 
 t.test(sample$`Lottery Choice` , mu= 3.5)
