@@ -11,8 +11,8 @@ Description:
 global USER "Ryan McWay"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "home"
-local input	"home\raw"
+local home "<project folder"
+local input "home\raw"
 local output "home\output"
 **************************************************************************
 display "Analysis run by $USER for Homework #3 at `date' and `time'"
