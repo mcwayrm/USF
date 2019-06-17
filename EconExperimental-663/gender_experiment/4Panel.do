@@ -12,10 +12,10 @@ Description:
 global USER "The Love Experts"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "local"
+local home "<project folder>"
 //***** All paths should be relative so that all you need to change is `home' in order to run the dofile.
 cd "`home'"
-local input	"`home'\input"
+local input "`home'\input"
 local edit "`home'\edit"
 local output "`home'\output"
 **************************************************************************
@@ -66,6 +66,6 @@ xtreg choice round2 round3 round4 round5 round6 round7 round8 round9 lgbtq Age L
 	outreg2 using `output'\\risk_panel.xls, append ctitle("Risk: Panel w/ Controls") addstat(R^2, e(r2_o), Chi^2, e(chi2)) addtext(Random Effects, YES)
 xtreg choice round3 round4 round5 round6 round7 round8 round9 lgbtq lag_shock
 	outreg2 using `output'\\risk_panel.xls, excel append ctitle("Risk: Panel w/ Lag") addstat(R^2, e(r2_o), Chi^2, e(chi2)) addtext(Random Effects, YES)
-	xtreg choice round3 round4 round5 round6 round7 round8 round9 lgbtq lag_shock Age LGBTQ_Church Love Female Female_lgbtq forever_single dating Long_Term_Relat Recent_Breakup
+xtreg choice round3 round4 round5 round6 round7 round8 round9 lgbtq lag_shock Age LGBTQ_Church Love Female Female_lgbtq forever_single dating Long_Term_Relat Recent_Breakup
 	outreg2 using `output'\\risk_panel.xls, excel append ctitle("Risk: Panel w/ Lag and Controls") addstat(R^2, e(r2_o), Chi^2, e(chi2)) addtext(Random Effects, YES)
 
