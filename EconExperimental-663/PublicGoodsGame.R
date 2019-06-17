@@ -6,7 +6,7 @@ output:
 ---
   ###**ECON663-Experimental Economics**
 library("readxl")
-sample <- read_excel("raw", sheet = "Data")
+sample <- read_excel("<raw>", sheet = "Data")
 print(sample)
 t.test(sample$MinGrowth, mu=1)
 
