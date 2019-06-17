@@ -13,8 +13,8 @@ Description:
 global USER "Ryan McWay"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "local"
-local input	"home\input"
+local home "<project folder>"
+local input "home\input"
 local output "home\output"
 local edit "home\edit"
 **************************************************************************
