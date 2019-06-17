@@ -6,7 +6,7 @@ output:
 ---
   ###**ECON663-Experimental Economics**
 library(readxl)
-sample <- read_excel("DictatorUltimatumData.xlsx")
+sample <- read_excel("<DictatorUltimatumData.xlsx>")
 print(sample)
 t.test(sample$DIC_SEND, mu=0)
 sort(sample$DIC_SEND)
