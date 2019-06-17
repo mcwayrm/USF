@@ -17,8 +17,8 @@ library(readstata13)
 ```
 ## Section 3.1
 ```{r, echo = TRUE}
-meta <- read_excel("local/sps_public.xlsx", sheet = "Data Dictionary")
-data <- read_excel("local/sps_public.xlsx", sheet = "Data")
+meta <- read_excel("<local/sps_public.xlsx>", sheet = "Data Dictionary")
+data <- read_excel("<local/sps_public.xlsx>", sheet = "Data")
 
 ```
 ```{r, echo = TRUE}
@@ -138,7 +138,7 @@ t.test(d_t,d_nt)
 ### Question 2
 (a) 
 ```{r, echo = FALSE}
-PoSd <- read.dta13("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ620-GradEconometrics/Homework_5/public_use_weighted_prices.dta")
+PoSd <- read.dta13("<local/public_use_weighted_prices.dta>")
 str(PoSd)
 ```
 ```{r, echo = TRUE}
