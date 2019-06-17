@@ -7,7 +7,7 @@ output:
   ###**ECON663-Experimental Economics**
 setwd("")
 library("readxl")
-sample <- read_excel("raw", sheet = "Data")
+sample <- read_excel("<raw>", sheet = "Data")
 View(sample2)
 
 #Supply and Demand
