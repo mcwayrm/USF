@@ -11,7 +11,7 @@ output:
 ### Q1. In this dataset, temperature is measured as 'anomalies' rather than as absolute temperature. Using NASA's Frequently Asked Questions section as a reference, explain in your own words what temperature 'anomalies' means. Why have researchers chosen this particular measure over other measures 
 
 ```{r, echo = TRUE}
-setwd("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ620-GradEconometrics/Homework_4/CORE_Project/raw")
+setwd("<CORE_Project/raw>")
 
 tempdata <- read.csv("NH_Temp.csv",skip=1,na.strings="***")
 head(tempdata)
@@ -187,7 +187,7 @@ legend(1880, 1.5, legend=c("DJF", "JJA"),col=c("blue", "darkgreen"), lty=1, cex=
 ## _Part 1.3 Carbon Emissions and the Environment_
 
 ```{r, echo= TRUE}
-setwd("C:/Users/Ryry/Documents/Ryan/Documents/USF/2019-Spring/Econ620-GradEconometrics/Homework_4/CORE_Project/raw")
+setwd("<CORE_Project/raw>")
 CO2data <- read.csv("1_CO2-data.csv")
 ```
 
