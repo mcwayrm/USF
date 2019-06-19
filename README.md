@@ -8,4 +8,6 @@ Econ620 - Graduate Econometrics
 
 GIS_USF - Work in GsAL Lab at USF
 
+MSDS_631 - Data Science for Python
+
 #### I have removed all comments and answers for assignments to classes. What is left behind is the code from the scripts alone. This is only done where appropriate and neccessary.
