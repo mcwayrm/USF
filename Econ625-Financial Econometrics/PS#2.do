@@ -12,7 +12,7 @@ Description:
 global USER "Ryan McWay"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "C:\Users\Ryry\Documents\Ryan\USF\2019-Fall\Econ625_Fin_Econometrics\ps2"
+local home "<local>"
 **************************************************************************
 display "Analysis run by $USER for Problem Set #1 at `date' and `time'"
 cd "`home'"
@@ -36,7 +36,7 @@ estat bgodfrey, lags(1/10)
 reg UNRATE FEDFUNDS
 durbina // Dubrin Watson Test
 /*
-	All the indicators are telling me YES, there is autocorrelation.
+
 */
 
 //****		b)
@@ -50,19 +50,19 @@ estat bgodfrey, lags(1/10)
 reg d.UNRATE d.FEDFUNDS
 durbina // Dubrin Watson Test
 /*
-	The autocorrelation appears to presist even after the first differencing.
+	
 */
 
 //****		c)
 prais UNRATE FEDFUNDS, corc
 /*
-	Explain the results
+	
 */
 
 //****		d)
 newey UNRATE FEDFUNDS, lag(2)
 /*
-	Explain Results
+	
 */
 
 //****	Part 2: ARMA
@@ -79,18 +79,17 @@ foreach i in x1 x2 x3 x4{
 //****		b)
 corrgram x1
 /*
-	Significance at lag 4
-	Why significance same for all var at lag 1
+	
 */
 
 //****		c)
 /*
-	Based on visual corrgram, what is likely structure of X1-X3
+	
 */
 
 //****		d)
 /*
-	White Noise Test (Q Stats) are helpful because it tells us the lag specification for our ARIMA and helps us to avoid serial correlation within out model.
+	
 */
 
 //****		e)
@@ -122,7 +121,7 @@ foreach i in x1 x2 x3 x4{
 }
 stop
 /*
-	Which is best for each X1-X3?
+
 */
 
 //****		g)
