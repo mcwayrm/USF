@@ -1,10 +1,15 @@
 ### Scripts and Code for my studies at the University of San Francisco
+
+Econ620 - Graduate Econometrics
+
+Econ625 - Financial Econometrics
+
+Econ627 - Applied Econometrics
+
 Econ663 - Experimental Economics
           (Gender Experiment)           
 
 Econ672 - Economic Development
-
-Econ620 - Graduate Econometrics
 
 GIS_USF - Work in GsAL Lab at USF
 
