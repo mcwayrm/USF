@@ -13,7 +13,7 @@ local date `c(current_date)'
 local time `c(current_time)'
 local home "<local>"
 **************************************************************************
-display "Analysis run by $USER for Merging Cruise Ship Data at `date' and `time'"
+display "Analysis run by $USER for Problem Set #1 at `date' and `time'"
 
 cd `home'
 //*****	Part 1:
