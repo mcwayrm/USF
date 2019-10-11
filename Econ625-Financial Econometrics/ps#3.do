@@ -9,7 +9,7 @@ Description:
 global USER "Ryan McWay"
 local date `c(current_date)'
 local time `c(current_time)'
-local home "C:\Users\Ryry\Documents\Ryan\USF\2019-Fall\Econ625_Fin_Econometrics\ps3\"
+local home "<local>"
 **************************************************************************
 display "Analysis run by $USER for Problem Set #3 at `date' and `time'"
 
