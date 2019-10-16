@@ -7,11 +7,13 @@ Econ625 - Financial Econometrics
 Econ627 - Applied Econometrics
 
 Econ663 - Experimental Economics
-          (Gender Experiment)           
+         - (Gender Experiment)           
 
 Econ672 - Economic Development
 
 GIS_USF - Work in GsAL Lab at USF
+          - Lidar
+          - Google Earth Engine
 
 MSDS_631 - Python for Data Science
 
