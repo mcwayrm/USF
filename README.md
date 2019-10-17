@@ -18,5 +18,6 @@ GIS_USF - Work in GsAL Lab at USF
 MSDS_631 - Python for Data Science
 
 - _**Note**_: ECON 611 - Computational Economics course has it's own repository called 'ECON611-MCWAYRM'
+- _**Note**_: Automate The Boring Stuff - An online Python course taken adjacent to Computational Economics
 
 #### I have removed all comments and written answers for assignments to classes. What is left behind is the code from the scripts alone. This is only done where appropriate and neccessary.
