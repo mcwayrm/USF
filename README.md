@@ -7,7 +7,7 @@ Econ625 - Financial Econometrics
 Econ627 - Applied Econometrics
 
 Econ663 - Experimental Economics
-- (Gender Experiment)           
+- Gender Experiment           
 
 Econ672 - Economic Development
 
