@@ -1,10 +1,9 @@
-var san_francisco = /* color: #d6422f */ee.Geometry.Point([-122.41665731201175, 37.77373276523463]),
-    landsat = ee.ImageCollection("LANDSAT/LC08/C01/T1"),
-    blue_world = {"opacity":1,"bands":["B9","B8","B7"],"min":5015,"max":15827,"gamma":1},
-    toa = ee.ImageCollection("LANDSAT/LC08/C01/T1_TOA"),
-    sr = ee.ImageCollection("LANDSAT/LC08/C01/T1_SR"),
-    sr_params = {"opacity":1,"bands":["B5","B10","B11"],"min":11,"max":4158,"gamma":1};
-    
+/*******************************
+      Lab 1 Assignment
+      Ryan McWay
+      10/21/2019
+*******************************/
+
 /*******************************
   Part 1: Searching Landsat Imagery
 *******************************/
@@ -32,7 +31,7 @@ var true_color = {
   max: 12000
 };
 // Adding Image 'true color' layer
-Map.addLayer(image, true_color, 'True-color Image');
+Map.addLayer(image, true_color, 'True-color Image', 0);
 
 // Creating NIR params
 var false_color = {
@@ -41,10 +40,10 @@ var false_color = {
   max: 13000
 };
 // Adding Image 'false color' layer
-Map.addLayer(image, false_color, 'False-color Composite');
+Map.addLayer(image, false_color, 'False-color Composite', 0);
 
 // Blue his house, with a blue little window, and a blue corvette and everything about his blue, like him, inside and outside
-Map.addLayer(image, blue_world, 'Blue-world Composite');
+Map.addLayer(image, blue_world, 'Blue-world Composite', 0);
 
 /*******************************
   Part 3: Plot at-sensor radiance
@@ -60,7 +59,7 @@ var radiance = ee.Algorithms.Landsat.calibratedRadiance(dn_image);
 var rad_params = {bands: ['B4', 'B3', 'B2'], 
                   min: 0, 
                   max: 100};
-Map.addLayer(radiance, rad_params, 'Radiance Composite');
+Map.addLayer(radiance, rad_params, 'Radiance Composite', 0);
 /*
   Inspecting points of this layer shows that solar irradiance is reflected, but that thermal is not.
 */
@@ -87,17 +86,17 @@ var toa_params = {
   min: 0,
   max: 0.3
 };
-Map.addLayer(toa_image, toa_params, 'TOA');
+Map.addLayer(toa_image, toa_params, 'TOA', 0);
 var toa_params_2 = {
   bands: ['B4','B3', 'B2'],
   min: 0,
   max: 1
 };
-Map.addLayer(toa_image_2, toa_params_2, 'My TOA'); // So they are the same even after filtering
+Map.addLayer(toa_image_2, toa_params_2, 'My TOA', 0); // So they are the same even after filtering
 
 // Limiting TOA removes thermal brightness
 var toa_limited = toa_image.select('B[0-9]');
-Map.addLayer(toa_limited, toa_params_2, 'Limited TOA');
+Map.addLayer(toa_limited, toa_params_2, 'Limited TOA', 0);
 
 
 // Make a point in GG Park
@@ -135,10 +134,33 @@ var sr_image = ee.Image(sr
   .first());
 // Display the Image
 print('A Landsat SR scene:', sr_image);
-Map.addLayer(sr_image, sr_params, 'Surface Reflectance');
+Map.addLayer(sr_image, sr_params, 'Surface Reflectance', 0);
 
 
 /*******************************
   Part 6: Assignment
 *******************************/
-// Assignment is done in assignment_lab_1.js
+
+// Create Azimuth from solar image in 1d using get()
+var azimuth = ee.Image(image.get('SUN_AZIMUTH'));
+print('This is my Azimuth scene:', azimuth);
+// Add Map Layer with params B7 = red, B5 = green, B3 = blue. Name the layer 'falsecolor'
+var falsecolor = {
+  bands: ['B7','B5', 'B3'],
+};
+print(azimuth, 'is the Azimuth');
+Map.addLayer(image, falsecolor, 'false-color');
+
+// Surface Tempature in B10 in GG Park. Create 'tempature' to store value
+var tempature = toa_image.reduceRegion({
+  reducer: ee.Reducer.max(),
+  geometry: gg_park,
+}).get('B10');
+print(tempature, ' is the surface tempature.');
+
+// Surface Reflectance in B5 in GG Park. Create 'reflectance' to store value
+var reflectance = toa_image.reduceRegion({
+  reducer: ee.Reducer.max(),
+  geometry: gg_park,
+}).get('B5');
+print(reflectance, ' is the surface reflectance.');
