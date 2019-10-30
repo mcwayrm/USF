@@ -153,3 +153,50 @@ Map.addLayer(landsat_7, {bands: 'B1', palette: 'blue'}, 'Landsat 7 Scenes', 0);
   Part 6: Assignment
 *******************************/
 
+// Set variables to scales for select bands
+//    MODIS MYD09GA
+var ga_image = ee.Image(myd09.first());
+var ga_scale = ga_image.select('sur_refl_b01')
+          .projection().nominalScale();
+//    MODIS MYD09GQ
+var gq_image = ee.Image(myd09gq.first());
+var gq_scale = gq_image.select('sur_refl_b01')
+          .projection().nominalScale();
+//    MODIS MYD11A1
+var myd11_image = ee.Image(myd11.first());
+var myd11_scale = myd11_image.select('LST_Day_1km')
+          .projection().nominalScale();
+//    Landsat 8
+var landsat_image = ee.Image(landsat8_sr.first());
+var landsat_scale = landsat_image.select('B1')
+          .projection().nominalScale();
+//    Sentinel 2
+var sentinel_image = ee.Image(sentinel2.first());
+var sentinel_scale = sentinel_image.select('B2')
+          .projection().nominalScale();
+//    NAIP
+var naip_image_2 = naip.filterDate('2017-01-01', '2017-12-31')
+              .filterBounds(Map.getCenter());
+var naip_scale_2 = ee.Image(naip_images.first().select('R'))
+              .projection().nominalScale();
+
+// Print the Scales
+print('MODIS MYD09GA Scale: ', ga_scale);
+print('MODIS MYD09GQ Scale: ', gq_scale);
+print('MODIS MYD11A1 Scale: ', myd11_scale);
+print('Landsat 8 SR Scale: ', landsat_scale);
+print('Sentinel 2 Scale: ', sentinel_scale);
+print('NAIP (2nd) Scale: ', naip_scale_2);
+
+// Set Point of Interest
+var point_interest = ee.Geometry.Point([-122.30144181223767, 37.80215861281014]);
+Map.centerObject(point_interest, 14);
+// How many MYD09GA images in 2017 at point? Set variable mod09_image_count with value
+print(myd09gq.first());
+var mod09_image_count = myd09gq.filterDate('2017-01-01', '2017-12-31').filterBounds(point_interest).size();
+
+print('Number of Images in 2017 for MYD09GA in Oakland: ', mod09_image_count);
+
+// How many Landsat8 SR images in 2017 at point? Set variable l8_image_count with value
+var l8_image_count = landsat8_sr.filterDate('2017-01-01', '2017-12-31').filterBounds(point_interest).size();
+print('Number of Images in 2017 for Landsat8 Surface Reflectance in Oakland: ', l8_image_count);
