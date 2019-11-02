@@ -5,6 +5,7 @@
 /*********************************
         Grammar and Types
 **********************************/
+
 // Greet Me function
 (function(){
   "use strict";
@@ -35,6 +36,7 @@ print(isbob(bob));
 /*********************************
   Control Flow and Error Handling
 **********************************/
+
 // Switch Statement
 var fruittype = 'Apples';
 switch (fruittype) {
@@ -85,3 +87,80 @@ catch (e) {
   console.log(myMonth + ' is unknown.'); 
 }
 
+/*********************************
+    Loops and Iteration
+**********************************/
+
+// Simple For Loop
+for (let step = 0; step < 5; step++) {
+  // Runs 5 times, with values of step 0 through 4.
+  console.log('Walking east one step', step);
+}
+
+// Do While Loop
+let i = 0;
+do {
+  i += 1;
+  console.log(i);
+} while (i < 5);
+
+// While Loop
+let n = 0;
+let x = 0;
+while (n < 3) {
+  n++;
+  x += n;
+}
+
+// Labels
+// markLoop:
+// while (theMark === true) {
+//   doSomething();
+// }
+
+// Break Statement
+var a = [2, 3, 5, 8];
+for (let i = 0; i < a.length; i++) {
+  if (a[i] === 5) {
+    print('Element ', i, 'in ', a, 'is 5.');
+    break;
+  }
+}
+
+// Break with a Label
+let t = 0;
+let z = 0;
+labelCancelLoops: while (true) {
+  console.log('Outer loops: ' + t);
+  t += 1;
+  z = 1;
+  while (true) {
+    console.log('Inner loops: ' + z);
+    z += 1;
+    if (z === 10 && t === 10) {
+      break labelCancelLoops;
+    } else if (z === 10) {
+      break;
+    }
+  }
+}
+
+// Continue Statement
+let i2 = 0;
+let j = 10;
+checkiandj:
+  while (i2 < 4) {
+    console.log(i2);
+    i2 += 1;
+    checkj:
+      while (j > 4) {
+        console.log(j);
+        j -= 1;
+        if ((j % 2) === 0) {
+          continue checkj;
+        }
+        console.log(j + ' is odd.');
+      }
+      console.log('i = ' + i2);
+      console.log('j = ' + j);
+  }
