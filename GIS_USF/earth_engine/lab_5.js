@@ -189,9 +189,59 @@ Map.addLayer(rgb, {max: 0.4}, 'Pan-sharpened', 0);
 /*******************************
   Part 4: Assignment
 *******************************/
-// 1: Calculate and map a Spectral Indice that you could use for your project.  Use the comment section to justify your choice.
+
+/*
+  I am using the VIRIS and DMSP but both of them seem to have everything is already corrected so I am unsure how to make an index for these. I will try with the DMSP.
+  I guess I could try making an index for amount of light making it through given the average cloud coverage in area
+*/
+var night_time = DMSP
+                .filterBounds(Mexico)
+                .filterDate('2010-01-01', '2011-01-01')
+                .first();
+Map.addLayer(night_time, {}, 'Night Time', 0);
+
+var cloud_free_light = night_time.expression(
+    'light / clouds', {
+      'light': night_time.select('stable_lights'),
+      'clouds': night_time.select('cf_cvg')
+    });
+Map.addLayer(cloud_free_light, {min: 0, max: 1, palette: veg_palette}, 'Cloud Free Light', 0);
+
 
 // 2: Calculate and map a Linear Transformation that you could use for your project.  Use the comment section to justify your choice.
+/*
+  Can't think of how to use the Tasseled Cap, as I would need to know what coefficents to use to make an urban index
+  I am going to try to do a prinicple components with all the band options to see what plays into night lights.
+*/
+var light_bands = ['avg_vis', 'stable_lights', 'cf_cvg', 'avg_lights_x_pct'];
+var light_array = night_time.select(light_bands).toArray(0);
+print('light_array', light_array)
+Map.addLayer(light_array, {}, 'light array', 0)
+var light_covar = light_array.reduceRegion({
+  reducer: ee.Reducer.covariance(),
+  geometry: Mexico,
+  maxPixels: 1e9
+});
+print('light_covar',light_covar)
+var light_covar_array = ee.Array(light_covar.get('array'));
+print('covar array', light_covar_array)
+var light_eigens = light_covar_array.eigen();
+print('light eigen', light_eigens)
+var light_eigen_vectors = light_eigens.slice(1, 1);
+print('eigen vector',light_eigen_vectors)
+var light_pc = ee.Image(light_eigen_vectors)
+              .matrixMultiply(light_array.toArray(1));
+print(light_pc)
+var light_pc_image = light_pc
+  .arrayProject([0])
+  .arrayFlatten([['pc1', 'pc2', 'pc3', 'pc4']]);
+print(light_pc_image)
+
+Map.addLayer(light_pc_image.select('pc1'), {}, 'Lights PC1', 0);
+Map.addLayer(light_pc_image.select('pc2'), {}, 'Lights PC2', 0);
+Map.addLayer(light_pc_image.select('pc3'), {}, 'Lights PC3', 0);
+Map.addLayer(light_pc_image.select('pc4'), {}, 'Lights PC4', 0);
 
 // 3: Create a Chart that summarizes the results from your selected Spectral Indices on the Y-axis and the bands of your input image on the x-axis using three unique landscape regions associated with your project.
+
 
