@@ -207,41 +207,62 @@ var cloud_free_light = night_time.expression(
     });
 Map.addLayer(cloud_free_light, {min: 0, max: 1, palette: veg_palette}, 'Cloud Free Light', 0);
 
-
 // 2: Calculate and map a Linear Transformation that you could use for your project.  Use the comment section to justify your choice.
 /*
   Can't think of how to use the Tasseled Cap, as I would need to know what coefficents to use to make an urban index
   I am going to try to do a prinicple components with all the band options to see what plays into night lights.
 */
-var light_bands = ['avg_vis', 'stable_lights', 'cf_cvg', 'avg_lights_x_pct'];
-var light_array = night_time.select(light_bands).toArray(0);
-print('light_array', light_array)
-Map.addLayer(light_array, {}, 'light array', 0)
-var light_covar = light_array.reduceRegion({
-  reducer: ee.Reducer.covariance(),
-  geometry: Mexico,
-  maxPixels: 1e9
-});
-print('light_covar',light_covar)
-var light_covar_array = ee.Array(light_covar.get('array'));
-print('covar array', light_covar_array)
-var light_eigens = light_covar_array.eigen();
-print('light eigen', light_eigens)
-var light_eigen_vectors = light_eigens.slice(1, 1);
-print('eigen vector',light_eigen_vectors)
-var light_pc = ee.Image(light_eigen_vectors)
-              .matrixMultiply(light_array.toArray(1));
-print(light_pc)
-var light_pc_image = light_pc
-  .arrayProject([0])
-  .arrayFlatten([['pc1', 'pc2', 'pc3', 'pc4']]);
-print(light_pc_image)
+/************************
+ * WARNING:
+ * My PCA sometimes runs and other times not. I talked with David and still have no idea why this is.
+ * *********************/
 
-Map.addLayer(light_pc_image.select('pc1'), {}, 'Lights PC1', 0);
-Map.addLayer(light_pc_image.select('pc2'), {}, 'Lights PC2', 0);
-Map.addLayer(light_pc_image.select('pc3'), {}, 'Lights PC3', 0);
-Map.addLayer(light_pc_image.select('pc4'), {}, 'Lights PC4', 0);
+print("night time", night_time);
+
+var light_bands = ['avg_vis', 'stable_lights', 'cf_cvg', 'avg_lights_x_pct'];
+
+var light_array = night_time.select(light_bands).toArray();
+
+var covar = light_array.reduceRegion({reducer: ee.Reducer.covariance(),
+                                     maxPixels: 1e9
+});
+
+var covarArray = ee.Array(covar.get('array'));
+
+var light_eigens = covar_array.eigen();
+
+var eigenVectors = eigens.slice(1, 1);
+
+var principalComponents = ee.Image(eigenVectors).matrixMultiply(light_array.toArray(1));
+
+var pcImage = principalComponents
+  // Throw out an an unneeded dimension, [[]] -> [].
+  .arrayProject([0])
+  // Make the one band array image a multi-band image, [] -> image.
+  .arrayFlatten([['pc1', 'pc2', 'pc3', 'pc4']]);
+
+Map.addLayer(pcImage.select('pc1'), {}, 'PC', false);
+
+Map.addLayer(pc_image.select('pc1'), {}, 'Lights PC1', 0);
+Map.addLayer(pc_image.select('pc2'), {}, 'Lights PC2', 0);
+Map.addLayer(pc_image.select('pc3'), {}, 'Lights PC3', 0);
+Map.addLayer(pc_image.select('pc4'), {}, 'Lights PC4', 0);
+
 
 // 3: Create a Chart that summarizes the results from your selected Spectral Indices on the Y-axis and the bands of your input image on the x-axis using three unique landscape regions associated with your project.
 
+var unmix_mex = night_time.select(['avg_vis', 'stable_lights', 'cf_cvg', 'avg_lights_x_pct']);
+
+// Need help understanding how to apply this here.
+var mex_regions = ee.FeatureCollection([ee.Feature(downtown, {label: 'downtown'}), 
+                                    ee.Feature(nature, {label: 'nature'}),
+                                    ee.Feature(mountian, {label: 'mountian'})]);
+var index_chart = ui.Chart.image.regions({image: night_time, 
+                              regions: mex_regions,
+                              reducer: ee.Reducer.mean(),
+                              scale: 30,
+                              seriesProperty: 'label',
+                              xLabels: [0.25, 0.5, 0.75, 1]
+});
+print('Index Chart: ', index_chart);
 
